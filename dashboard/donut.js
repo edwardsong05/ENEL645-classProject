@@ -1,5 +1,9 @@
+// prevent reloading on submit
+document.getElementById("inputForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+});
+
 var files = "../preprocR1/arrDel_cancelled_diverted_onTime_Huston/FeaturesLabels";
-console.log(files + "201001" + ".csv");
 
 // 0 - on time
 // 1 - delayed
@@ -11,24 +15,6 @@ var diverted = 0;
 var cancelled = 0;
 
 var data = [];
-d3.csv(files + "201001" + ".csv", (d1) => {
-    data.push(d1);
-    data = data[0];
-
-    data.map((row) => {
-        if (row.LABEL === "0") {
-            on_time++;
-        } else if (row.LABEL === "1") {
-            delayed++;
-        } else if (row.LABEL === "2") {
-            diverted++;
-        } else {
-            cancelled++;
-        }
-    });
-
-    console.log(on_time, delayed, diverted, cancelled);
-});
 
 function getData() {
     var year = document.getElementById("yearInput").value;
@@ -56,6 +42,8 @@ function getData() {
             }
         });
         console.log(on_time, delayed, diverted, cancelled);
+
+        change(randomData());
     });
 }
 
@@ -97,7 +85,7 @@ var key = function(d) {
 
 var color = d3.scale
     .ordinal()
-    .domain(["On Time", "Delayed", "Diverted", "Cancelled"])
+    .domain(["On Time", "Cancelled", "Delayed", "Diverted"])
     .range(["#98abc5", "#7b6888", "#a05d56", "#ff8c00"]);
 
 function randomData() {
@@ -119,7 +107,6 @@ change(randomData());
 
 d3.select(".randomize").on("click", function() {
     getData();
-    change(randomData());
 });
 
 function change(data) {
