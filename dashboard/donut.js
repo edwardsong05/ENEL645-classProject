@@ -14,7 +14,6 @@ var data = [];
 d3.csv(files + "201001" + ".csv", (d1) => {
     data.push(d1);
     data = data[0];
-    console.log(data);
 
     data.map((row) => {
         if (row.LABEL === "0") {
@@ -30,6 +29,35 @@ d3.csv(files + "201001" + ".csv", (d1) => {
 
     console.log(on_time, delayed, diverted, cancelled);
 });
+
+function getData() {
+    var year = document.getElementById("yearInput").value;
+    var month = document.getElementById("monthInput").value;
+
+    d3.csv(files + year + month + ".csv", (d1) => {
+        data = [];
+        data.push(d1);
+        data = data[0];
+
+        on_time = 0;
+        delayed = 0;
+        diverted = 0;
+        cancelled = 0;
+
+        data.map((row) => {
+            if (row.LABEL === "0") {
+                on_time++;
+            } else if (row.LABEL === "1") {
+                delayed++;
+            } else if (row.LABEL === "2") {
+                diverted++;
+            } else {
+                cancelled++;
+            }
+        });
+        console.log(on_time, delayed, diverted, cancelled);
+    });
+}
 
 var svg = d3
     .select("body")
@@ -69,31 +97,28 @@ var key = function(d) {
 
 var color = d3.scale
     .ordinal()
-    .domain([
-        "Lorem ipsum",
-        "dolor sit",
-        "amet",
-        "consectetur",
-        "adipisicing",
-        "elit",
-        "sed",
-        "do",
-        "eiusmod",
-        "tempor",
-        "incididunt"
-    ])
-    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+    .domain(["On Time", "Delayed", "Diverted", "Cancelled"])
+    .range(["#98abc5", "#7b6888", "#a05d56", "#ff8c00"]);
 
 function randomData() {
     var labels = color.domain();
     return labels.map(function(label) {
-        return { label: label, value: Math.random() };
+        if (label === "On Time") {
+            return { label: label, value: on_time };
+        } else if (label === "Delayed") {
+            return { label: label, value: delayed };
+        } else if (label === "Diverted") {
+            return { label: label, value: diverted };
+        } else {
+            return { label: label, value: cancelled };
+        }
     });
 }
 
 change(randomData());
 
 d3.select(".randomize").on("click", function() {
+    getData();
     change(randomData());
 });
 
