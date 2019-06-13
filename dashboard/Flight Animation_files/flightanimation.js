@@ -1,46 +1,35 @@
-$(function() {
-    var OD_PAIRS = [
-        ["IAH", "LA"],
-        ["IAH", "NY"],
-        ["IAH", "IL"],
-        ["IAH", "MA"],
-        ["IAH", "CA"],
-        ["IAH", "KS"],
-        ["IAH", "AZ"],
-        ["IAH", "PR"],
-        ["IAH", "OK"],
-        ["IAH", "OR"],
-        ["IAH", "FL"],
-        ["IAH", "VA"],
-        ["IAH", "NC"],
-        ["IAH", "IA"],
-        ["IAH", "MO"],
-        ["IAH", "GA"],
-        ["IAH", "MI"],
-        ["IAH", "SC"],
-        ["IAH", "HI"],
-        ["IAH", "KY"],
-        ["IAH", "NJ"],
-        ["IAH", "PA"],
-        ["IAH", "AL"],
-        ["IAH", "NV"],
-        ["IAH", "OH"],
-        ["IAH", "AR"],
-        ["IAH", "NM"],
-        ["IAH", "MD"],
-        ["IAH", "WI"],
-        ["IAH", "IN"],
-        ["IAH", "TN"],
-        ["IAH", "WA"],
-        ["IAH", "UT"],
-        ["IAH", "NE"],
-        ["IAH", "CO"],
-        ["IAH", "WV"],
-        ["IAH", "MN"],
-        ["IAH", "TX"],
-        ["IAH", "MS"]
-    ];
+var OD_PAIRS = [];
 
+var files = "../preprocR1/arrDel_cancelled_diverted_onTime_Huston/FeaturesLabels";
+var check = 0;
+
+function getDataMap() {
+    var year = document.getElementById("yearInput").value;
+    var month = document.getElementById("monthInput").value;
+    var dest = document.getElementById("destSelect").value;
+
+    d3.csv(files + year + month + ".csv", (d1) => {
+        data = [];
+        data.push(d1);
+        data = data[0];
+
+        OD_PAIRS = [];
+
+        if (dest !== "--") {
+            data = data.filter((row) => {
+                return row.DEST_STATE_ABR === dest;
+            });
+        }
+
+        data.map((row) => {
+            OD_PAIRS.push(["IAH", row.DEST_STATE_ABR]);
+        });
+
+        check = 0;
+    });
+}
+
+$(function() {
     var currentWidth = $("#map").width();
     var width = 938;
     var height = 620;
@@ -59,7 +48,7 @@ $(function() {
         .select("#map")
         .append("svg")
         //.attr("preserveAspectRatio", "xMidYMid")
-        .attr("viewBox", "50 260 260 171");
+        .attr("viewBox", "50 264 260 171");
     //.attr("viewBox", "0 0 " + width + " " + height)
     //.attr("width", currentWidth)
     //.attr("height", (currentWidth * height) / width);
@@ -144,13 +133,13 @@ $(function() {
 
         var i = 0;
         setInterval(function() {
-            if (i > OD_PAIRS.length - 1) {
-                i = 0;
+            if (check > OD_PAIRS.length - 1) {
+                return;
             }
-            var od = OD_PAIRS[i];
+            var od = OD_PAIRS[check];
             fly(od[0], od[1]);
-            i++;
-        }, 150);
+            check++;
+        }, 50);
     }
 
     queue()

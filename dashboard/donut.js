@@ -1,8 +1,3 @@
-// prevent reloading on submit
-document.getElementById("inputForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-});
-
 var files = "../preprocR1/arrDel_cancelled_diverted_onTime_Huston/FeaturesLabels";
 
 // 0 - on time
@@ -16,9 +11,10 @@ var cancelled = 0;
 
 var data = [];
 
-function getData() {
+function getDataDonut() {
     var year = document.getElementById("yearInput").value;
     var month = document.getElementById("monthInput").value;
+    var dest = document.getElementById("destSelect").value;
 
     d3.csv(files + year + month + ".csv", (d1) => {
         data = [];
@@ -29,6 +25,12 @@ function getData() {
         delayed = 0;
         diverted = 0;
         cancelled = 0;
+
+        if (dest !== "--") {
+            data = data.filter((row) => {
+                return row.DEST_STATE_ABR === dest;
+            });
+        }
 
         data.map((row) => {
             if (row.LABEL === "0") {
@@ -105,9 +107,11 @@ function randomData() {
 
 change(randomData());
 
-d3.select(".randomize").on("click", function() {
-    getData();
+/*
+d3.select(".randomize").on("click.donut", function() {
+    getDataDonut();
 });
+*/
 
 function change(data) {
     /* ------- PIE SLICES -------*/
