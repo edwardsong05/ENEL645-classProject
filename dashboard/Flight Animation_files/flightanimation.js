@@ -1,53 +1,44 @@
 $(function() {
     var OD_PAIRS = [
-        ["NRT", "JFK"],
-        ["SFO", "NRT"],
-        ["LAX", "HNL"],
-        ["HNL", "NRT"],
-        ["CDG", "JFK"],
-        ["NRT", "SYD"],
-        ["FCO", "PEK"],
-        ["LHR", "PVG"],
-        ["NRT", "ARN"],
-        ["LAX", "JFK"],
-        ["NRT", "DEL"],
-        ["DFW", "GRU"],
-        ["MAD", "ATL"],
-        ["ORD", "CAI"],
-        ["HKG", "CDG"],
-        ["LAS", "CDG"],
-        ["NRT", "SVO"],
-        ["DEN", "HNL"],
-        ["ORD", "LAX"],
-        ["SIN", "SEA"],
-        ["SYD", "PEK"],
-        ["CAI", "CPT"],
-        ["CUN", "JFK"],
-        ["ORD", "JFK"],
-        ["LHR", "BOM"],
-        ["LAX", "MEX"],
-        ["LHR", "CPT"],
-        ["PVG", "CGK"],
-        ["SYD", "BOM"],
-        ["JFK", "CPT"],
-        ["MAD", "GRU"],
-        ["EZE", "FCO"],
-        ["DEL", "DXB"],
-        ["DXB", "NRT"],
-        ["GRU", "MIA"],
-        ["SVO", "PEK"],
-        ["YYZ", "ARN"],
-        ["LHR", "YYC"],
-        ["HNL", "SEA"],
-        ["JFK", "EZE"],
-        ["EZE", "LAX"],
-        ["CAI", "HKG"],
-        ["SVO", "SIN"],
-        ["IST", "MCO"],
-        ["MCO", "LAX"],
-        ["FRA", "LAS"],
-        ["ORD", "FRA"],
-        ["MAD", "JFK"]
+        ["IAH", "LA"],
+        ["IAH", "NY"],
+        ["IAH", "IL"],
+        ["IAH", "MA"],
+        ["IAH", "CA"],
+        ["IAH", "KS"],
+        ["IAH", "AZ"],
+        ["IAH", "PR"],
+        ["IAH", "OK"],
+        ["IAH", "OR"],
+        ["IAH", "FL"],
+        ["IAH", "VA"],
+        ["IAH", "NC"],
+        ["IAH", "IA"],
+        ["IAH", "MO"],
+        ["IAH", "GA"],
+        ["IAH", "MI"],
+        ["IAH", "SC"],
+        ["IAH", "HI"],
+        ["IAH", "KY"],
+        ["IAH", "NJ"],
+        ["IAH", "PA"],
+        ["IAH", "AL"],
+        ["IAH", "NV"],
+        ["IAH", "OH"],
+        ["IAH", "AR"],
+        ["IAH", "NM"],
+        ["IAH", "MD"],
+        ["IAH", "WI"],
+        ["IAH", "IN"],
+        ["IAH", "TN"],
+        ["IAH", "WA"],
+        ["IAH", "UT"],
+        ["IAH", "NE"],
+        ["IAH", "CO"],
+        ["IAH", "WV"],
+        ["IAH", "MN"],
+        ["IAH", "TX"],
+        ["IAH", "MS"]
     ];
 
     var currentWidth = $("#map").width();
@@ -67,10 +58,11 @@ $(function() {
     var svg = d3
         .select("#map")
         .append("svg")
-        .attr("preserveAspectRatio", "xMidYMid")
-        .attr("viewBox", "0 0 " + width + " " + height)
-        .attr("width", currentWidth)
-        .attr("height", (currentWidth * height) / width);
+        //.attr("preserveAspectRatio", "xMidYMid")
+        .attr("viewBox", "50 260 260 171");
+    //.attr("viewBox", "0 0 " + width + " " + height)
+    //.attr("width", currentWidth)
+    //.attr("height", (currentWidth * height) / width);
 
     var airportMap = {};
 
